@@ -95,13 +95,8 @@ final class Base1DBarcode
 
     /**
      * Return an HTML representation of barcode.
-     *
-     * @param string $type
-     * @param int    $w
-     * @param int    $h
-     * @param string $color
      */
-    public function getBarcodeHTML(string $code, $type, $w = 2, $h = 30, $color = 'black'): string
+    public function getBarcodeHTML(string $code, string $type, int $w = 2, int $h = 30, string $color = 'black'): string
     {
         $this->setBarcode($code, $type);
         $html = '<div style="font-size:0;position:relative;width:' . ($this->barcodeArray['maxw'] * $w) . 'px;height:' . ($h) . 'px;">' . "\n";

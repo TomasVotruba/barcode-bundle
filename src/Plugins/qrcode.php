@@ -1037,77 +1037,35 @@ final class qrcode
         return ($x % 3);
     }
 
-    /**
-     * mask3
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    private function mask3($x, $y)
+    private function mask3(int $x, int $y): int
     {
         return ($x + $y) % 3;
     }
 
-    /**
-     * mask4
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    private function mask4($x, $y)
+    private function mask4(int $x, int $y): int
     {
         return (((int) ($y / 2)) + ((int) ($x / 3))) & 1;
     }
 
-    /**
-     * mask5
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    private function mask5($x, $y)
+    private function mask5(int $x, int $y): int
     {
         return (($x * $y) & 1) + ($x * $y) % 3;
     }
 
-    /**
-     * mask6
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    private function mask6($x, $y)
+    private function mask6(int $x, int $y): int
     {
         return ((($x * $y) & 1) + ($x * $y) % 3) & 1;
     }
 
-    /**
-     * mask7
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    private function mask7($x, $y)
+    private function mask7(int $x, int $y): int
     {
         return ((($x * $y) % 3) + (($x + $y) & 1)) & 1;
     }
 
     /**
      * Return bitmask
-     *
-     * @return array
      */
-    private function generateMaskNo(int $maskNo, int $width, array $frame)
+    private function generateMaskNo(int $maskNo, int $width, array $frame): array
     {
         $bitMask = array_fill(0, $width, array_fill(0, $width, 0));
         for ($y = 0; $y < $width; ++$y) {
@@ -1147,12 +1105,7 @@ final class qrcode
         return $b;
     }
 
-    /**
-     * makeMask
-     *
-     * @return array
-     */
-    private function makeMask(int $width, array $frame, int $maskNo, int $level)
+    private function makeMask(int $width, array $frame, int $maskNo, int $level): array
     {
         $masked = array_fill(0, $width, str_repeat("\0", $width));
         $this->makeMaskNo($maskNo, $width, $frame, $masked);
@@ -1164,7 +1117,7 @@ final class qrcode
     /**
      * calcN1N3
      */
-    private function calcN1N3(int $length)
+    private function calcN1N3(int $length): int
     {
         $demerit = 0;
         for ($i = 0; $i < $length; ++$i) {

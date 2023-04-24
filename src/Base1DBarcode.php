@@ -30,7 +30,6 @@ final class Base1DBarcode
      */
     public function setTempPath($serverPath)
     {
-        $exception = null;
         try {
             if (! file_exists($serverPath)) {
                 mkdir($serverPath, 0770, true);

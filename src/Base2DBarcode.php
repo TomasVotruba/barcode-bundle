@@ -66,13 +66,8 @@ final class Base2DBarcode
 
     /**
      * Return a SVG string representation of barcode.
-     *
-     * @param string $type
-     * @param int    $w
-     * @param int    $h
-     * @param string $color
      */
-    public function getBarcodeSVGcode(string $code, $type, $w = 3, $h = 3, $color = 'black'): string
+    public function getBarcodeSVGcode(string $code, string $type, int $w = 3, int $h = 3, string $color = 'black'): string
     {
         //set barcode code and type
         $this->setBarcode($code, $type);

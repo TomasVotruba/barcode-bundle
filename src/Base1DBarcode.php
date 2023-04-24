@@ -42,13 +42,8 @@ final class Base1DBarcode
 
     /**
      * Send barcode as SVG image object to the standard output.
-     *
-     * @param string $type
-     * @param int    $w
-     * @param int    $h
-     * @param string $color
      */
-    public function getBarcodeSVG(string $code, $type, $w = 2, $h = 30, $color = 'black'): void
+    public function getBarcodeSVG(string $code, string $type, int $w = 2, int $h = 30, string $color = 'black'): void
     {
         $this->setBarcode($code, $type);
         $code = $this->getBarcodeSVGcode($w, $h, $color);
@@ -64,13 +59,8 @@ final class Base1DBarcode
 
     /**
      * Return a SVG string representation of barcode.
-     *
-     * @param string $type
-     * @param int    $w
-     * @param int    $h
-     * @param string $color
      */
-    public function getBarcodeSVGcode(string $code, $type, $w = 2, $h = 30, $color = 'black'): string
+    public function getBarcodeSVGcode(string $code, string $type, int $w = 2, int $h = 30, string $color = 'black'): string
     {
         $this->setBarcode($code, $type);
         // replace table for special characters
@@ -136,12 +126,9 @@ final class Base1DBarcode
     /**
      * Return a PNG image representation of barcode (requires GD or Imagick library).
      *
-     * @param string $type
-     * @param int    $w
-     * @param int    $h
-     * @param array  $color
+     * @param int[] $color
      */
-    public function getBarcodePNG(string $code, $type, $w = 2, $h = 30, $color = [0, 0, 0]): bool
+    public function getBarcodePNG(string $code, string $type, int $w = 2, int $h = 30, array $color = [0, 0, 0]): bool
     {
         $this->setBarcode($code, $type);
         $bar = null;
@@ -316,10 +303,7 @@ final class Base1DBarcode
         }
     }
 
-    /**
-     * @param string $type
-     */
-    public function setBarcode(string $code, $type): void
+    public function setBarcode(string $code, string $type): void
     {
         switch (strtoupper(trim($type))) {
             case 'C39': // CODE 39 - ANSI MH10.8M-1983 - USD-3 - 3 of 9.

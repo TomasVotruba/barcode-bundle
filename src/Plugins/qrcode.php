@@ -788,7 +788,7 @@ final class qrcode
             if (self::QR_FIND_BEST_MASK) {
                 $masked = $this->mask($this->width, $this->frame, $this->level);
             } else {
-                $masked = $this->makeMask($this->width, $this->frame, ((int) self::QR_DEFAULT_MASK % 8), $this->level);
+                $masked = $this->makeMask($this->width, $this->frame, (self::QR_DEFAULT_MASK % 8), $this->level);
             }
         } else {
             $masked = $this->makeMask($this->width, $this->frame, $mask, $this->level);
@@ -951,7 +951,7 @@ final class qrcode
     private function getCode()
     {
         if ($this->count < $this->dataLength) {
-            $row = (int) ($this->count % $this->blocks);
+            $row = $this->count % $this->blocks;
             $col = (int) ($this->count / $this->blocks);
             if ($col >= $this->rsblocks[0]['dataLength']) {
                 $row += $this->b1;
@@ -959,7 +959,7 @@ final class qrcode
 
             $ret = $this->rsblocks[$row]['data'][$col];
         } elseif ($this->count < $this->dataLength + $this->eccLength) {
-            $row = (int) (($this->count - $this->dataLength) % $this->blocks);
+            $row = ($this->count - $this->dataLength) % $this->blocks;
             $col = (int) (($this->count - $this->dataLength) / $this->blocks);
             $ret = $this->rsblocks[$row]['ecc'][$col];
         } else {
@@ -1042,7 +1042,7 @@ final class qrcode
      *
      * @return int
      */
-    private function mask1($x, $y)
+    private function mask1($y)
     {
         return ($y & 1);
     }
@@ -1161,7 +1161,7 @@ final class qrcode
                     $d[$y][$x] = chr(ord($s[$y][$x]) ^ ((int) ($bitMask[$y][$x])));
                 }
 
-                $b += (int) (ord($d[$y][$x]) & 1);
+                $b += ord($d[$y][$x]) & 1;
             }
         }
 
@@ -1291,15 +1291,14 @@ final class qrcode
      */
     private function mask(int $width, array $frame, int $level)
     {
+        $howManuOut = null;
         $minDemerit = PHP_INT_MAX;
         $checkedMasks = [0, 1, 2, 3, 4, 5, 6, 7];
-        if (self::QR_FIND_FROM_RANDOM !== false) {
-            $howManuOut = 8 - (self::QR_FIND_FROM_RANDOM % 9);
-            for ($i = 0; $i < $howManuOut; ++$i) {
-                $remPos = random_int(0, count($checkedMasks) - 1);
-                unset($checkedMasks[$remPos]);
-                $checkedMasks = array_values($checkedMasks);
-            }
+        $howManuOut = 8 - (self::QR_FIND_FROM_RANDOM % 9);
+        for ($i = 0; $i < $howManuOut; ++$i) {
+            $remPos = random_int(0, count($checkedMasks) - 1);
+            unset($checkedMasks[$remPos]);
+            $checkedMasks = array_values($checkedMasks);
         }
 
         $bestMask = $frame;
@@ -1308,7 +1307,7 @@ final class qrcode
             $blacks = $this->makeMaskNo($i, $width, $frame, $mask);
             $blacks += $this->writeFormatInformation($width, $mask, $i, $level);
             $blacks = (int) (100 * $blacks / ($width * $width));
-            $demerit = (int) ((int) (abs($blacks - 50) / 5) * self::N4);
+            $demerit = (int) (abs($blacks - 50) / 5) * self::N4;
             $demerit += $this->evaluateSymbol($width, $mask);
             if ($demerit < $minDemerit) {
                 $minDemerit = $demerit;
@@ -1699,7 +1698,7 @@ final class qrcode
             $inputitem['size']
         );
         for ($i = 0; $i < $words; ++$i) {
-            $val = (int) ($this->lookAnTable(ord($inputitem['data'][$i * 2])) * 45);
+            $val = $this->lookAnTable(ord($inputitem['data'][$i * 2])) * 45;
             $val += (int) ($this->lookAnTable(ord($inputitem['data'][($i * 2) + 1])));
             $inputitem['bstream'] = $this->appendNum($inputitem['bstream'], 11, $val);
         }
@@ -1951,7 +1950,7 @@ final class qrcode
      */
     private function estimateBitsMode8($size): int
     {
-        return (int) ($size * 8);
+        return $size * 8;
     }
 
     /**
@@ -2013,9 +2012,6 @@ final class qrcode
                     return $this->checkModeKanji($size, $data);
                 }
             case self::QR_MODE_8B:
-                {
-                    return true;
-                }
             case self::QR_MODE_ST:
                 {
                     return true;

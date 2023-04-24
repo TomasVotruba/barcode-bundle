@@ -21,5 +21,6 @@ return static function (RectorConfig $rectorConfig): void {
         \Rector\Set\ValueObject\SetList::CODING_STYLE,
         \Rector\Set\ValueObject\SetList::CODE_QUALITY,
         \Rector\Set\ValueObject\SetList::TYPE_DECLARATION,
+        \Rector\Set\ValueObject\SetList::DEAD_CODE,
     ]);
 };

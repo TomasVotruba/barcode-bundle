@@ -1543,12 +1543,12 @@ final class Base1DBarcode
                         case 'B':
                             if ($key == 0) {
                                 $tmpchr = ord($seq[1][0]);
-                                if (($seq[2] == 1) && ($tmpchr >= 241) && ($tmpchr <= 244) && isset($sequence[(1)]) && ($sequence[(1)][0] != 'B')) {
-                                    if ($sequence[(1)][0] == 'A') {
+                                if (($seq[2] == 1) && ($tmpchr >= 241) && ($tmpchr <= 244) && isset($sequence[1]) && ($sequence[1][0] != 'B')) {
+                                    if ($sequence[1][0] == 'A') {
                                         $startid = 103;
                                         $sequence[$key][0] = 'A';
                                         $codeData[] = $fncA[$tmpchr];
-                                    } elseif ($sequence[(1)][0] == 'C') {
+                                    } elseif ($sequence[1][0] == 'C') {
                                         $startid = 105;
                                         $sequence[$key][0] = 'C';
                                         $codeData[] = $fncA[$tmpchr];

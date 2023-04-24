@@ -400,8 +400,8 @@ final class Base2DBarcode
                 $this->barcodeArray['num_rows'] = count($rows);
                 $this->barcodeArray['num_cols'] = strlen($rows[0]);
                 $this->barcodeArray['bcode'] = [];
-                foreach ($rows as $r) {
-                    $this->barcodeArray['bcode'][] = str_split($r, 1);
+                foreach ($rows as $row) {
+                    $this->barcodeArray['bcode'][] = str_split($row, 1);
                 }
 
                 $this->barcodeArray['code'] = $code;

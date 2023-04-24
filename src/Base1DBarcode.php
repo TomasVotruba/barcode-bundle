@@ -2646,8 +2646,8 @@ final class Base1DBarcode
         // convert codewords to characters
         $characters = [];
         $bitmask = 512;
-        foreach ($codewords as $val) {
-            $chrcode = $val <= 1286 ? $table5of13[$val] : $table2of13[($val - 1287)];
+        foreach ($codewords as $codeword) {
+            $chrcode = $codeword <= 1286 ? $table5of13[$codeword] : $table2of13[($codeword - 1287)];
 
             if (($fcs & $bitmask) > 0) {
                 // bitwise invert

@@ -1022,39 +1022,17 @@ final class qrcode
         return $blacks;
     }
 
-    /**
-     * mask0
-     *
-     * @param int $x
-     * @param int $y
-     *
-     * @return int
-     */
-    private function mask0($x, $y)
+    private function mask0(int $x, int $y): int
     {
         return ($x + $y) & 1;
     }
 
-    /**
-     * mask1
-     *
-     * @param int $y
-     *
-     * @return int
-     */
-    private function mask1($y)
+    private function mask1(int $x, int $y): int
     {
         return ($y & 1);
     }
 
-    /**
-     * mask 2
-     *
-     * @param int $x
-     *
-     * @return int
-     */
-    private function mask2($x)
+    private function mask2(int $x, int $y): int
     {
         return ($x % 3);
     }
@@ -1137,8 +1115,9 @@ final class qrcode
                 if ((ord($frame[$y][$x]) & 0x80) !== 0) {
                     $bitMask[$y][$x] = 0;
                 } else {
+                    // calling mask0() - mask7()
                     $maskFunc = call_user_func([$this, 'mask' . $maskNo], $x, $y);
-                    $bitMask[$y][$x] = ($maskFunc == 0) ? 1 : 0;
+                    $bitMask[$y][$x] = ($maskFunc === 0) ? 1 : 0;
                 }
             }
         }
@@ -1184,8 +1163,6 @@ final class qrcode
 
     /**
      * calcN1N3
-     *
-     * @return int
      */
     private function calcN1N3(int $length)
     {
@@ -1302,10 +1279,10 @@ final class qrcode
         }
 
         $bestMask = $frame;
-        foreach ($checkedMasks as $i) {
+        foreach ($checkedMasks as $checkedMask) {
             $mask = array_fill(0, $width, str_repeat("\0", $width));
-            $blacks = $this->makeMaskNo($i, $width, $frame, $mask);
-            $blacks += $this->writeFormatInformation($width, $mask, $i, $level);
+            $blacks = $this->makeMaskNo($checkedMask, $width, $frame, $mask);
+            $blacks += $this->writeFormatInformation($width, $mask, $checkedMask, $level);
             $blacks = (int) (100 * $blacks / ($width * $width));
             $demerit = (int) (abs($blacks - 50) / 5) * self::N4;
             $demerit += $this->evaluateSymbol($width, $mask);
@@ -1989,8 +1966,6 @@ final class qrcode
      *
      * @param int   $mode
      * @param int   $size
-     *
-     * @return bool
      */
     private function check($mode, $size, array $data): bool
     {

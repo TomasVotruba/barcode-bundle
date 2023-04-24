@@ -1268,7 +1268,6 @@ final class qrcode
      */
     private function mask(int $width, array $frame, int $level)
     {
-        $howManuOut = null;
         $minDemerit = PHP_INT_MAX;
         $checkedMasks = [0, 1, 2, 3, 4, 5, 6, 7];
         $howManuOut = 8 - (self::QR_FIND_FROM_RANDOM % 9);

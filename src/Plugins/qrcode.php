@@ -1992,7 +1992,7 @@ final class qrcode
      *
      * @return bool
      */
-    private function check($mode, $size, array $data)
+    private function check($mode, $size, array $data): bool
     {
         if ($size <= 0) {
             return false;
@@ -2000,26 +2000,16 @@ final class qrcode
 
         switch ($mode) {
             case self::QR_MODE_NM:
-                {
-                    return $this->checkModeNum($size, $data);
-                }
+                return $this->checkModeNum($size, $data);
             case self::QR_MODE_AN:
-                {
-                    return $this->checkModeAn($size, $data);
-                }
+                return $this->checkModeAn($size, $data);
             case self::QR_MODE_KJ:
-                {
-                    return $this->checkModeKanji($size, $data);
-                }
+                return $this->checkModeKanji($size, $data);
             case self::QR_MODE_8B:
             case self::QR_MODE_ST:
-                {
-                    return true;
-                }
+                return true;
             default:
-                {
-                    break;
-                }
+                break;
         }
 
         return false;

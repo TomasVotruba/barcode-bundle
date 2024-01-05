@@ -248,7 +248,7 @@ final class Base1DBarcode
             $png = new \Imagick();
             $png->newImage($width, $height, 'none', 'png');
         } else {
-            return false;
+            return null;
         }
 
         // print bars

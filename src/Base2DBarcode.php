@@ -232,17 +232,13 @@ final class Base2DBarcode
     /**
      * Return a .png file path which create in server
      *
-     * @param string $code
-     * @param string $type
      * @param int    $w
      * @param int    $h
      * @param array  $color
      *
      * @throws \Exception
-     *
-     * @return bool
      */
-    public function getBarcodePNGPath($code, $type, $w = 3, $h = 3, $color = [0, 0, 0], $filename = null)
+    public function getBarcodePNGPath(string $code, string $type, $w = 3, $h = 3, $color = [0, 0, 0], $filename = null): ?string
     {
         if (is_null($filename)) {
             $filename = $type . '_' . $code;
@@ -276,7 +272,7 @@ final class Base2DBarcode
             $png = new \Imagick();
             $png->newImage($width, $height, 'none', 'png');
         } else {
-            return false;
+            return null;
         }
 
         // print barcode elements
@@ -414,13 +410,8 @@ final class Base2DBarcode
 
     /**
      * unlink old barcode image file or optional rand prefix file
-     *
-     * @param string $path
-     * @param bool   $overwrite
-     *
-     * @return mixed
      */
-    public function checkfile($path, $overwrite)
+    public function checkfile(string $path, bool $overwrite): string
     {
         if (file_exists($path)) {
             if (! $overwrite) {

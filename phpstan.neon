@@ -1,9 +1,11 @@
 parameters:
-    level: 3
+    level: 4
 
     paths:
         - src
         - tests
+
+    treatPhpDocTypesAsCertain: false
 
     ignoreErrors:
         -

@@ -10,8 +10,9 @@ final class Base2DBarcode
 {
     /**
      * Array representation of barcode
+     * @var array<string, mixed>
      */
-    private $barcodeArray = [];
+    private array $barcodeArray = [];
 
     /**
      * path to save png in getBarcodePNGPath
@@ -251,7 +252,7 @@ final class Base2DBarcode
         $this->setBarcode($code, $type);
         $bar = null;
 
-        if (empty($this->barcodeArray) || (! $this->barcodeArray)) {
+        if ($this->barcodeArray === []) {
             throw new \Exception('It not possible to generate barcode of type: ' . $type . ' for number/code: ' . $code . '! May be this is an invalid code pattern!');
         }
 

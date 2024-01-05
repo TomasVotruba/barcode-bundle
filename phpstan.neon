@@ -20,7 +20,21 @@ parameters:
         # called via magic name
         - '#Method TomasVotruba\\BarcodeBundle\\Plugins\\qrcode::mask\d+\(\) is unused#'
 
-        # false positive
+        # unclear
         -
             message: '#(Left|Right) side of && is always false#'
+            paths:
+                 - src/Plugins/pdf417.php
+                 - src/Plugins/datamatrix.php
+
+        -
+            message: '#Else branch is unreachable because ternary operator condition is always true#'
             path: src/Plugins/pdf417.php
+
+        -
+            message: '#Comparison operation ">\=" between 0\|int<2, max> and 0 is always true#'
+            path: src/Plugins/datamatrix.php
+
+        -
+            message: '#Result of && is always false#'
+            path: src/Plugins/datamatrix.php

@@ -371,11 +371,11 @@ final class datamatrix
 
     public function __construct(string $code)
     {
-        $params = [];
-
-        if ($code == '') {
+        if ($code === '') {
             return;
         }
+
+        $params = [];
 
         // get data codewords
         $cw = $this->getHighLevelEncoding($code);
@@ -793,7 +793,7 @@ final class datamatrix
                             $tmpchr = ord($data[$k]);
                             if ($this->isCharMode($tmpchr, self::ENC_X12)) {
                                 return self::ENC_X12;
-                            } elseif (! $this->isCharMode($tmpchr, self::ENC_X12) && ! $this->isCharMode($tmpchr, self::ENC_C40)) {
+                            } elseif (! $this->isCharMode($tmpchr, self::ENC_C40)) {
                                 break;
                             }
 
@@ -804,9 +804,7 @@ final class datamatrix
                     }
                 }
             }
-        } // end of while
-
-        return true;
+        }
     }
 
     /**

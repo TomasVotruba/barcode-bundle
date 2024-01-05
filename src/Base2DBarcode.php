@@ -407,7 +407,7 @@ final class Base2DBarcode
                 break;
 
             default:
-                $this->barcodeArray = false;
+                $this->barcodeArray = [];
                 break;
         }
     }

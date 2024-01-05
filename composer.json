@@ -29,7 +29,7 @@
         }
     },
     "scripts": {
-        "phpstan": "vendor/bin/phpstan analyse --ansi",
+        "phpstan": "vendor/bin/phpstan analyse --ansi --error-format symplify",
         "check-cs": "vendor/bin/ecs check --ansi",
         "fix-cs": "vendor/bin/ecs check --fix --ansi"
     },

@@ -422,7 +422,7 @@ final class Base1DBarcode
                 break;
 
             default:
-                $this->barcodeArray = false;
+                $this->barcodeArray = [];
                 $arrcode = false;
                 break;
         }
@@ -1435,7 +1435,7 @@ final class Base1DBarcode
                     $charId = ord($char);
                     if (($charId >= 241) && ($charId <= 244)) {
                         $codeData[] = $fncA[$charId];
-                    } elseif (($charId >= 0) && ($charId <= 95)) {
+                    } elseif ($charId <= 95) {
                         $codeData[] = strpos($keysA, $char);
                     } else {
                         return false;

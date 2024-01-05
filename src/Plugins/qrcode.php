@@ -2299,15 +2299,8 @@ final class qrcode
 
     /**
      * Replace a value on the array at the specified position
-     *
-     * @param array  $srctab
-     * @param int    $x
-     * @param int    $y
-     * @param bool   $replLen
-     *
-     * @return mixed
      */
-    private function qrstrset($srctab, $x, $y, string $repl, $replLen = false)
+    private function qrstrset(array $srctab, int $x, int $y, string $repl, $replLen = false): array
     {
         $srctab[$y] = substr_replace(
             $srctab[$y],

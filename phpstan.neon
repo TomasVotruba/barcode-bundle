@@ -40,4 +40,4 @@ parameters:
             path: src/Plugins/datamatrix.php
 
         # level 5 - WIP
-        - '#Parameter (.*?), bool given#'
+        #- '#Parameter (.*?), bool given#'

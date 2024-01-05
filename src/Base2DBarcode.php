@@ -47,22 +47,6 @@ final class Base2DBarcode
         }
     }
 
-    public function getBarcodeSVG(string $code, string $type, int $w = 3, int $h = 3, string $color = 'black'): void
-    {
-        //set barcode code and type
-        $this->setBarcode($code, $type);
-        // send headers
-        $code = $this->getBarcodeSVGcode($w, $h, $color);
-        header('Content-Type: application/svg+xml');
-        header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
-        header('Pragma: public');
-        header('Expires: Sat, 12 Nov 1977 23:50:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Disposition: inline; filename="' . md5($code) . '.svg";');
-        //header('Content-Length: '.strlen($code));
-        echo $code;
-    }
-
     /**
      * Return a SVG string representation of barcode.
      */

@@ -213,11 +213,9 @@ final class Base1DBarcode
      * @param string $type
      * @param array  $color
      *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function getBarcodePNGPath($code, $type, int $w = 2, int $h = 30, $color = [0, 0, 0], $filename = null)
+    public function getBarcodePNGPath($code, $type, int $w = 2, int $h = 30, $color = [0, 0, 0], $filename = null): ?string
     {
         if (is_null($filename)) {
             $filename = $type . '_' . $code;

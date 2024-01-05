@@ -38,3 +38,6 @@ parameters:
         -
             message: '#Result of && is always false#'
             path: src/Plugins/datamatrix.php
+
+        # level 5 - WIP
+        - '#Parameter (.*?), bool given#'

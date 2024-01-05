@@ -1376,12 +1376,7 @@ final class qrcode
         return $run;
     }
 
-    /**
-     * eatKanji
-     *
-     * @return int
-     */
-    private function eatKanji()
+    private function eatKanji(): int
     {
         $p = 0;
         while ($this->identifyMode($p) == self::QR_MODE_KJ) {
@@ -1394,12 +1389,7 @@ final class qrcode
         return $run;
     }
 
-    /**
-     * eat8
-     *
-     * @return int run
-     */
-    private function eat8()
+    private function eat8(): int
     {
         $la = $this->lengthIndicator(self::QR_MODE_AN, $this->version);
         $ln = $this->lengthIndicator(self::QR_MODE_NM, $this->version);
@@ -1450,12 +1440,7 @@ final class qrcode
         return $run;
     }
 
-    /**
-     * splitString
-     *
-     * @return int
-     */
-    private function splitString()
+    private function splitString(): int
     {
         while (strlen($this->dataStr) > 0) {
             if ($this->dataStr == '') {

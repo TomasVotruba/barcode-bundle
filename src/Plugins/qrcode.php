@@ -1265,12 +1265,7 @@ final class qrcode
         return ($this->lookAnTable(ord($str[$pos])) >= 0);
     }
 
-    /**
-     * identifyMode
-     *
-     * @param int $pos
-     */
-    private function identifyMode($pos): int
+    private function identifyMode(int $pos): int
     {
         if ($pos >= strlen($this->dataStr)) {
             return self::QR_MODE_NL;
@@ -1376,12 +1371,7 @@ final class qrcode
         return $run;
     }
 
-    /**
-     * eatKanji
-     *
-     * @return int
-     */
-    private function eatKanji()
+    private function eatKanji(): int
     {
         $p = 0;
         while ($this->identifyMode($p) == self::QR_MODE_KJ) {
@@ -1394,12 +1384,7 @@ final class qrcode
         return $run;
     }
 
-    /**
-     * eat8
-     *
-     * @return int run
-     */
-    private function eat8()
+    private function eat8(): int
     {
         $la = $this->lengthIndicator(self::QR_MODE_AN, $this->version);
         $ln = $this->lengthIndicator(self::QR_MODE_NM, $this->version);
@@ -1450,12 +1435,7 @@ final class qrcode
         return $run;
     }
 
-    /**
-     * splitString
-     *
-     * @return int
-     */
-    private function splitString()
+    private function splitString(): int
     {
         while (strlen($this->dataStr) > 0) {
             if ($this->dataStr == '') {
@@ -1511,7 +1491,7 @@ final class qrcode
         $stringLen = strlen($this->dataStr);
         $p = 0;
         while ($p < $stringLen) {
-            $mode = $this->identifyMode(substr($this->dataStr, $p));
+            $mode = $this->identifyMode((int) substr($this->dataStr, $p));
             if ($mode == self::QR_MODE_KJ) {
                 $p += 2;
             } else {
@@ -2314,15 +2294,8 @@ final class qrcode
 
     /**
      * Replace a value on the array at the specified position
-     *
-     * @param array  $srctab
-     * @param int    $x
-     * @param int    $y
-     * @param bool   $replLen
-     *
-     * @return mixed
      */
-    private function qrstrset($srctab, $x, $y, string $repl, $replLen = false)
+    private function qrstrset(array $srctab, int $x, int $y, string $repl, $replLen = false): array
     {
         $srctab[$y] = substr_replace(
             $srctab[$y],

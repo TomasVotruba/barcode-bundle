@@ -43,23 +43,6 @@ final class Base1DBarcode
     }
 
     /**
-     * Send barcode as SVG image object to the standard output.
-     */
-    public function getBarcodeSVG(string $code, string $type, int $w = 2, int $h = 30, string $color = 'black'): void
-    {
-        $this->setBarcode($code, $type);
-        $code = $this->getBarcodeSVGcode($w, $h, $color);
-        header('Content-Type: application/svg+xml');
-        header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
-        header('Pragma: public');
-        header('Expires: Sat, 12 Nov 1977 23:50:00 GMT'); // Date in the past
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-        header('Content-Disposition: inline; filename="' . md5($code) . '.svg";');
-        header('Content-Length: ' . strlen($code));
-        echo $code;
-    }
-
-    /**
      * Return a SVG string representation of barcode.
      */
     public function getBarcodeSVGcode(string $code, string $type, int $w = 2, int $h = 30, string $color = 'black'): string
@@ -166,7 +149,7 @@ final class Base1DBarcode
                     $bar->setfillcolor($fgcol);
                     $bar->rectangle($x, $y, ($x + $bw), ($y + $bh));
                 } else {
-                    imagefilledrectangle($png, $x, $y, ($x + $bw), ($y + $bh), $fgcol);
+                    imagefilledrectangle($png, $x, (int) $y, (int) ($x + $bw), (int) ($y + $bh), $fgcol);
                 }
             }
 
@@ -213,11 +196,9 @@ final class Base1DBarcode
      * @param string $type
      * @param array  $color
      *
-     * @return bool
-     *
      * @throws \Exception
      */
-    public function getBarcodePNGPath($code, $type, int $w = 2, int $h = 30, $color = [0, 0, 0], $filename = null)
+    public function getBarcodePNGPath($code, $type, int $w = 2, int $h = 30, $color = [0, 0, 0], $filename = null): ?string
     {
         if (is_null($filename)) {
             $filename = $type . '_' . $code;
@@ -248,7 +229,7 @@ final class Base1DBarcode
             $png = new \Imagick();
             $png->newImage($width, $height, 'none', 'png');
         } else {
-            return false;
+            return null;
         }
 
         // print bars
@@ -2631,11 +2612,11 @@ final class Base1DBarcode
         // convert binary data to codewords
         $codewords = [];
         $data = $this->hex_to_dec($binaryCode102bit);
-        $codewords[0] = bcmod($data, 636) * 2;
-        $data = bcdiv($data, 636);
+        $codewords[0] = bcmod($data, '636') * 2;
+        $data = bcdiv($data, '636');
         for ($i = 1; $i < 9; ++$i) {
-            $codewords[$i] = bcmod($data, 1365);
-            $data = bcdiv($data, 1365);
+            $codewords[$i] = bcmod($data, '1365');
+            $data = bcdiv($data, '1365');
         }
 
         $codewords[9] = $data;
@@ -2728,7 +2709,7 @@ final class Base1DBarcode
             if ($number == 0) {
                 $hex[] = '0';
             } else {
-                $hex[] = strtoupper(dechex(bcmod($number, '16')));
+                $hex[] = strtoupper(dechex((int) bcmod($number, '16')));
                 $number = bcdiv($number, '16', 0);
             }
         }
@@ -2751,8 +2732,8 @@ final class Base1DBarcode
         $bitval = 1;
         $len = strlen($hex);
         for ($pos = ($len - 1); $pos >= 0; --$pos) {
-            $dec = bcadd($dec, bcmul(hexdec($hex[$pos]), $bitval));
-            $bitval = bcmul($bitval, 16);
+            $dec = bcadd($dec, bcmul((string) hexdec($hex[$pos]), $bitval));
+            $bitval = bcmul($bitval, '16');
         }
 
         return $dec;

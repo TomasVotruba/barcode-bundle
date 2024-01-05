@@ -5,7 +5,8 @@
     "keywords": ["barcodes","barcode","qrcode","pdf417","datamatrix","ean"],
     "license": "MIT",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.0",
+        "ext-bcmath": "*",
         "symfony/dependency-injection": "^6.0 || ^7.0",
         "symfony/http-kernel": "^6.0 || ^7.0"
     },

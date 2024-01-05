@@ -56,11 +56,11 @@ final class datamatrix
     public const // ASCII extended encoding: ASCII character 128 to 255 (1/2 byte per CW)
     ENC_ASCII_NUM = 7; // ASCII number encoding: ASCII digits (2 bytes per CW)
 
-    protected $barcodeArray = [];
+    private $barcodeArray = [];
 
-    protected $lastEnc = self::ENC_ASCII;
+    private $lastEnc = self::ENC_ASCII;
 
-    protected $symbattr = [
+    private $symbattr = [
         [0x00a, 0x00a, 0x008, 0x008, 0x00a, 0x00a, 0x008, 0x008, 0x001, 0x001, 0x001, 0x003, 0x005, 0x001, 0x003, 0x005], // 10x10
         [0x00c, 0x00c, 0x00a, 0x00a, 0x00c, 0x00c, 0x00a, 0x00a, 0x001, 0x001, 0x001, 0x005, 0x007, 0x001, 0x005, 0x007], // 12x12
         [0x00e, 0x00e, 0x00c, 0x00c, 0x00e, 0x00e, 0x00c, 0x00c, 0x001, 0x001, 0x001, 0x008, 0x00a, 0x001, 0x008, 0x00a], // 14x14
@@ -94,13 +94,13 @@ final class datamatrix
         [0x010, 0x030, 0x00e, 0x02c, 0x010, 0x018, 0x00e, 0x016, 0x001, 0x002, 0x002, 0x031, 0x01c, 0x001, 0x031, 0x01c],  // 16x48
     ];
 
-    protected $chsetId = [
+    private $chsetId = [
         self::ENC_C40 => 'C40',
         self::ENC_TXT => 'TXT',
         self::ENC_X12 => 'X12',
     ];
 
-    protected $chset = [
+    private $chset = [
         'C40' => [
             // Basic set for C40 ----------------------------------------------------------------------------
             'S1' => 0x00,

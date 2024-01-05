@@ -168,7 +168,7 @@ final class qrcode
      * Error correction length.
      * @var int
      */
-    protected $eccLength;
+    private $eccLength;
 
     /**
      * Barcode array to be returned which is readable by Dinesh Rabara.
@@ -960,7 +960,7 @@ final class qrcode
     /**
      * Write Format Information on frame and returns the number of black bits
      *
-     * @param array &$frame
+     * @param array $frame
      * @param int   $mask
      *
      * @return int
@@ -1015,12 +1015,12 @@ final class qrcode
 
     private function mask1(int $x, int $y): int
     {
-        return ($y & 1);
+        return $y & 1;
     }
 
     private function mask2(int $x, int $y): int
     {
-        return ($x % 3);
+        return $x % 3;
     }
 
     private function mask3(int $x, int $y): int
@@ -1245,7 +1245,7 @@ final class qrcode
             return false;
         }
 
-        return ((ord($str[$pos]) >= ord('0')) && (ord($str[$pos]) <= ord('9')));
+        return (ord($str[$pos]) >= ord('0')) && (ord($str[$pos]) <= ord('9'));
     }
 
     /**
@@ -1262,7 +1262,7 @@ final class qrcode
             return false;
         }
 
-        return ($this->lookAnTable(ord($str[$pos])) >= 0);
+        return $this->lookAnTable(ord($str[$pos])) >= 0;
     }
 
     private function identifyMode(int $pos): int
@@ -1442,26 +1442,25 @@ final class qrcode
             $mode = $this->identifyMode(0);
             switch ($mode) {
                 case self::QR_MODE_NM:
-                    {
-                        $length = $this->eatNum();
-                        break;
-                    }
-                case self::QR_MODE_AN:
-                    {
-                        $length = $this->eatAn();
-                        break;
-                    }
-                case self::QR_MODE_KJ:
-                    {
-                        $length = $this->hint == self::QR_MODE_KJ ? $this->eatKanji() : $this->eat8();
 
-                        break;
-                    }
+                    $length = $this->eatNum();
+                    break;
+
+                case self::QR_MODE_AN:
+
+                    $length = $this->eatAn();
+                    break;
+
+                case self::QR_MODE_KJ:
+
+                    $length = $this->hint == self::QR_MODE_KJ ? $this->eatKanji() : $this->eat8();
+
+                    break;
+
                 default:
-                    {
-                        $length = $this->eat8();
-                        break;
-                    }
+
+                    $length = $this->eat8();
+                    break;
             }
 
             if ($length == 0) {
@@ -1705,34 +1704,33 @@ final class qrcode
         } else {
             switch ($inputitem['mode']) {
                 case self::QR_MODE_NM:
-                    {
-                        $inputitem = $this->encodeModeNum($inputitem, $version);
-                        break;
-                    }
+
+                    $inputitem = $this->encodeModeNum($inputitem, $version);
+                    break;
+
                 case self::QR_MODE_AN:
-                    {
-                        $inputitem = $this->encodeModeAn($inputitem, $version);
-                        break;
-                    }
+
+                    $inputitem = $this->encodeModeAn($inputitem, $version);
+                    break;
+
                 case self::QR_MODE_8B:
-                    {
-                        $inputitem = $this->encodeMode8($inputitem, $version);
-                        break;
-                    }
+
+                    $inputitem = $this->encodeMode8($inputitem, $version);
+                    break;
+
                 case self::QR_MODE_KJ:
-                    {
-                        $inputitem = $this->encodeModeKanji($inputitem, $version);
-                        break;
-                    }
+
+                    $inputitem = $this->encodeModeKanji($inputitem, $version);
+                    break;
+
                 case self::QR_MODE_ST:
-                    {
-                        $inputitem = $this->encodeModeStructure($inputitem);
-                        break;
-                    }
+
+                    $inputitem = $this->encodeModeStructure($inputitem);
+                    break;
+
                 default:
-                    {
-                        break;
-                    }
+
+                    break;
             }
         }
 
@@ -1779,7 +1777,7 @@ final class qrcode
      */
     private function lookAnTable(int $c)
     {
-        return (($c > 127) ? -1 : $this->anTable[$c]);
+        return ($c > 127) ? -1 : $this->anTable[$c];
     }
 
     /**
@@ -1923,33 +1921,32 @@ final class qrcode
         foreach ($items as $item) {
             switch ($item['mode']) {
                 case self::QR_MODE_NM:
-                    {
-                        $bits = $this->estimateBitsModeNum($item['size']);
-                        break;
-                    }
+
+                    $bits = $this->estimateBitsModeNum($item['size']);
+                    break;
+
                 case self::QR_MODE_AN:
-                    {
-                        $bits = $this->estimateBitsModeAn($item['size']);
-                        break;
-                    }
+
+                    $bits = $this->estimateBitsModeAn($item['size']);
+                    break;
+
                 case self::QR_MODE_8B:
-                    {
-                        $bits = $this->estimateBitsMode8($item['size']);
-                        break;
-                    }
+
+                    $bits = $this->estimateBitsMode8($item['size']);
+                    break;
+
                 case self::QR_MODE_KJ:
-                    {
-                        $bits = $this->estimateBitsModeKanji($item['size']);
-                        break;
-                    }
+
+                    $bits = $this->estimateBitsModeKanji($item['size']);
+                    break;
+
                 case self::QR_MODE_ST:
-                    {
-                        return self::STRUCTURE_HEADER_BITS;
-                    }
+
+                    return self::STRUCTURE_HEADER_BITS;
+
                 default:
-                    {
-                        return 0;
-                    }
+
+                    return 0;
             }
 
             $l = $this->lengthIndicator($item['mode'], $version);
@@ -2685,7 +2682,7 @@ final class qrcode
      */
     private function rsBlockNum($spec)
     {
-        return ($spec[0] + $spec[3]);
+        return $spec[0] + $spec[3];
     }
 
     /**
@@ -2898,7 +2895,7 @@ final class qrcode
         $rs['gfpoly'] = $gfpoly;
         // Find prim-th root of 1, used in decoding
         for ($iprim = 1; $iprim % $prim != 0; $iprim += $rs['nn']) {
-            ; // intentional empty-body loop!
+            // intentional empty-body loop!
         }
 
         $rs['iprim'] = (int) ($iprim / $prim);

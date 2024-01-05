@@ -1113,4 +1113,4 @@ final class BarcodeBaseTest extends TestCase
 
         $this->assertTrue($checkCondition);
     }
-};
+}

@@ -9,16 +9,16 @@ use TomasVotruba\BarcodeBundle\Plugins\qrcode as QRcode;
 final class Base2DBarcode
 {
     /**
-     * Array representation of barcode
-     * @var array<string, mixed>
-     */
-    private array $barcodeArray = [];
-
-    /**
      * path to save png in getBarcodePNGPath
      * @var string
      */
     public $savePath;
+
+    /**
+     * Array representation of barcode
+     * @var array<string, mixed>
+     */
+    private array $barcodeArray = [];
 
     /**
      * Return an array representations of barcode.
@@ -43,7 +43,7 @@ final class Base2DBarcode
                 mkdir($serverPath, 0770, true);
             }
         } catch (\Exception $exception) {
-            throw new \Exception("An error occurred while creating barcode cache directory at " . $serverPath, $exception->getCode(), $exception);
+            throw new \Exception('An error occurred while creating barcode cache directory at ' . $serverPath, $exception->getCode(), $exception);
         }
     }
 
@@ -224,7 +224,7 @@ final class Base2DBarcode
      */
     public function getBarcodePNGPath(string $code, string $type, $w = 3, $h = 3, $color = [0, 0, 0], $filename = null): ?string
     {
-        if (is_null($filename)) {
+        if ($filename === null) {
             $filename = $type . '_' . $code;
         }
 
@@ -294,10 +294,9 @@ final class Base2DBarcode
             imagedestroy($png);
 
             return $saveFile;
-        } else {
-            imagedestroy($png);
-            throw new \Exception('It not possible to write barcode cache file to path ' . $this->savePath);
         }
+        imagedestroy($png);
+        throw new \Exception('It not possible to write barcode cache file to path ' . $this->savePath);
     }
 
     /**
@@ -402,9 +401,8 @@ final class Base2DBarcode
                 $baseName = pathinfo($path, PATHINFO_BASENAME);
 
                 return $this->checkfile(str_replace($baseName, random_int(0, 9999) . $baseName, $path), $overwrite);
-            } else {
-                unlink($path);
             }
+            unlink($path);
         }
 
         return $path;

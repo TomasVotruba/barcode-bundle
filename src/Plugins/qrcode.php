@@ -165,6 +165,12 @@ final class qrcode
     QR_DEFAULT_MASK = 2; // when QR_FIND_BEST_MASK === false
 
     /**
+     * Error correction length.
+     * @var int
+     */
+    protected $eccLength;
+
+    /**
      * Barcode array to be returned which is readable by Dinesh Rabara.
      */
     private array $barcodeArray = [];
@@ -259,12 +265,6 @@ final class qrcode
      * @var int
      */
     private $dataLength;
-
-    /**
-     * Error correction length.
-     * @var int
-     */
-    protected $eccLength;
 
     /**
      * Value b1.
@@ -651,7 +651,7 @@ final class qrcode
     public function __construct($code, string $eclevel = 'L')
     {
         $barcodeArray = [];
-        if ((is_null($code)) || ($code == '\0') || ($code == '')) {
+        if (($code === null) || ($code == '\0') || ($code == '')) {
             return;
         }
 
@@ -671,7 +671,7 @@ final class qrcode
 
         $this->items = [];
         $this->encodeString($code);
-        if (is_null($this->data)) {
+        if ($this->data === null) {
             return;
         }
 
@@ -742,7 +742,7 @@ final class qrcode
     {
         $spec = [0, 0, 0, 0, 0];
         $this->datacode = $this->getByteStream($this->items);
-        if (is_null($this->datacode)) {
+        if ($this->datacode === null) {
             return null;
         }
 
@@ -1348,9 +1348,8 @@ final class qrcode
                     - $this->estimateBitsModeAn($q); // - 4 - la
                 if ($dif < 0) {
                     break;
-                } else {
-                    $p = $q;
                 }
+                $p = $q;
             } else {
                 ++$p;
             }
@@ -1407,9 +1406,8 @@ final class qrcode
                     - $this->estimateBitsMode8($q); // - 4 - l8
                 if ($dif < 0) {
                     break;
-                } else {
-                    $p = $q;
                 }
+                $p = $q;
             } elseif ($mode == self::QR_MODE_AN) {
                 $q = $p;
                 while ($this->isalnumat($this->dataStr, $q)) {
@@ -1421,9 +1419,8 @@ final class qrcode
                     - $this->estimateBitsMode8($q); // - 4 - l8
                 if ($dif < 0) {
                     break;
-                } else {
-                    $p = $q;
                 }
+                $p = $q;
             } else {
                 ++$p;
             }
@@ -2048,7 +2045,7 @@ final class qrcode
      */
     private function appendPaddingBit($bstream)
     {
-        if (is_null($bstream)) {
+        if ($bstream === null) {
             return null;
         }
 
@@ -2255,7 +2252,7 @@ final class qrcode
      */
     private function bitstreamToByte($bstream)
     {
-        if (is_null($bstream)) {
+        if ($bstream === null) {
             return null;
         }
 
@@ -2672,7 +2669,7 @@ final class qrcode
             $this->frames[$version] = $this->createFrame($version);
         }
 
-        if (is_null($this->frames[$version])) {
+        if ($this->frames[$version] === null) {
             return null;
         }
 

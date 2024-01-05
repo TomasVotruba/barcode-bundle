@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
+use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
+use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -12,13 +14,18 @@ return function (ECSConfig $ecsConfig): void {
         __DIR__ . '/tests',
     ]);
 
-    // this way you can add sets - group of rules
     $ecsConfig->sets([
-        SetList::SPACES,
-        SetList::ARRAY,
-        SetList::DOCBLOCK,
-        SetList::NAMESPACES,
-        SetList::COMMENTS,
+        SetList::COMMON,
         SetList::PSR_12,
+    ]);
+
+    $ecsConfig->skip([
+        // string + int + float types could get mixed up
+        StrictComparisonFixer::class,
+        DeclareStrictTypesFixer::class,
+        StrictParamFixer::class,
+
+            // depends on previous assign
+        \PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff::class,
     ]);
 };

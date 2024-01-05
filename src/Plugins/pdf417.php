@@ -4063,7 +4063,7 @@ final class pdf417
         $macrocw = [];
         $barcodeArray = [];
 
-        if ((is_null($code)) || ($code == '\0') || ($code == '')) {
+        if (($code === null) || ($code == '\0') || ($code == '')) {
             return;
         }
 

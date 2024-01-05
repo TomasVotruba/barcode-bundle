@@ -4,7 +4,10 @@ namespace TomasVotruba\BarcodeBundle;
 
 final class Base1DBarcode
 {
-    private $barcodeArray;
+    /**
+     * @var array<string, mixed>
+     */
+    private array $barcodeArray = [];
 
     /**
      * path to save png in getBarcodePNGPath
@@ -14,9 +17,9 @@ final class Base1DBarcode
 
     /**
      * Return an array representations of barcode.
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getBarcodeArray()
+    public function getBarcodeArray(): array
     {
         return $this->barcodeArray;
     }
@@ -227,7 +230,7 @@ final class Base1DBarcode
         $width = ($this->barcodeArray['maxw'] * $w);
         $height = $h;
 
-        if (empty($this->barcodeArray) || (! $this->barcodeArray)) {
+        if ($this->barcodeArray === []) {
             throw new \Exception('It not possible to generate barcode of type: ' . $type . ' for number/code: ' . $code . '! May be this is an invalid code pattern!');
         }
 

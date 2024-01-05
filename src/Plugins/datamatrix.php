@@ -373,7 +373,7 @@ final class datamatrix
     {
         $params = [];
 
-        if ((is_null($code)) || ($code == '\0') || ($code == '')) {
+        if ($code == '') {
             return;
         }
 

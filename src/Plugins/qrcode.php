@@ -16,40 +16,40 @@ final class qrcode
     QR_MODE_NL = -1;
 
     /**
+     * Encoding modes (characters which can be encoded in QRcode)
      * @var int
      */
-    public const // Encoding modes (characters which can be encoded in QRcode)
-    QR_MODE_NM = 0;
+    public const QR_MODE_NM = 0;
 
     /**
+     * Encoding mode numeric (0-9). 3 characters are encoded to 10bit length. In theory, 7089 characters or less can be stored in a QRcode.
      * @var int
      */
-    public const // Encoding mode numeric (0-9). 3 characters are encoded to 10bit length. In theory, 7089 characters or less can be stored in a QRcode.
-    QR_MODE_AN = 1;
+    public const QR_MODE_AN = 1;
 
     /**
+     * Encoding mode alphanumeric (0-9A-Z $%*+-./:) 45characters. 2 characters are encoded to 11bit length. In theory, 4296 characters or less can be stored in a QRcode.
      * @var int
      */
-    public const // Encoding mode alphanumeric (0-9A-Z $%*+-./:) 45characters. 2 characters are encoded to 11bit length. In theory, 4296 characters or less can be stored in a QRcode.
-    QR_MODE_8B = 2;
+    public const QR_MODE_8B = 2;
 
     /**
+     * Encoding mode 8bit byte data. In theory, 2953 characters or less can be stored in a QRcode.
      * @var int
      */
-    public const // Encoding mode 8bit byte data. In theory, 2953 characters or less can be stored in a QRcode.
-    QR_MODE_KJ = 3;
+    public const QR_MODE_KJ = 3;
 
     /**
+     * Encoding mode KANJI. A KANJI character (multibyte character) is encoded to 13bit length. In theory, 1817 characters or less can be stored in a QRcode.
      * @var int
      */
-    public const // Encoding mode KANJI. A KANJI character (multibyte character) is encoded to 13bit length. In theory, 1817 characters or less can be stored in a QRcode.
-    QR_MODE_ST = 4;
+    public const QR_MODE_ST = 4;
 
     /**
+     * Encoding mode STRUCTURED (currently unsupported)
      * @var int
      */
-    public const // Encoding mode STRUCTURED (currently unsupported)
-    QR_ECLEVEL_L = 0;
+    public const QR_ECLEVEL_L = 0;
 
     /**
      * @var int
@@ -147,10 +147,10 @@ final class qrcode
     N4 = 10;
 
     /**
+     * Down point base value for case 4 mask pattern (ration of dark modules in whole)
      * @var bool
      */
-    public const // Down point base value for case 4 mask pattern (ration of dark modules in whole)
-    QR_FIND_BEST_MASK = true;
+    public const QR_FIND_BEST_MASK = true;
 
     /**
      * @var int
@@ -785,11 +785,7 @@ final class qrcode
         // masking
         $this->runLength = array_fill(0, self::QRSPEC_WIDTH_MAX + 1, 0);
         if ($mask < 0) {
-            if (self::QR_FIND_BEST_MASK) {
-                $masked = $this->mask($this->width, $this->frame, $this->level);
-            } else {
-                $masked = $this->makeMask($this->width, $this->frame, (self::QR_DEFAULT_MASK % 8), $this->level);
-            }
+            $masked = $this->mask($this->width, $this->frame, $this->level);
         } else {
             $masked = $this->makeMask($this->width, $this->frame, $mask, $this->level);
         }
@@ -809,16 +805,6 @@ final class qrcode
     private function setFrameAt($at, int $val): void
     {
         $this->frame[$at['y']][$at['x']] = chr($val);
-    }
-
-    /**
-     * Get frame value at specified position
-     *
-     * @param array $at
-     */
-    private function getFrameAt($at): int
-    {
-        return ord($this->frame[$at['y']][$at['x']]);
     }
 
     /**
@@ -2019,77 +2005,6 @@ final class qrcode
         } while ($version > $prev);
 
         return $version;
-    }
-
-    /**
-     * lengthOfCode
-     *
-     * @param int $mode
-     * @param int $version
-     * @param int $bits
-     *
-     * @return int
-     */
-    private function lengthOfCode($mode, $version, $bits)
-    {
-        $payload = $bits - 4 - $this->lengthIndicator($mode, $version);
-        switch ($mode) {
-            case self::QR_MODE_NM:
-                {
-                    $chunks = (int) ($payload / 10);
-                    $remain = $payload - $chunks * 10;
-                    $size = $chunks * 3;
-                    if ($remain >= 7) {
-                        $size += 2;
-                    } elseif ($remain >= 4) {
-                        ++$size;
-                    }
-
-                    break;
-                }
-            case self::QR_MODE_AN:
-                {
-                    $chunks = (int) ($payload / 11);
-                    $remain = $payload - $chunks * 11;
-                    $size = $chunks * 2;
-                    if ($remain >= 6) {
-                        ++$size;
-                    }
-
-                    break;
-                }
-            case self::QR_MODE_8B:
-                {
-                    $size = (int) ($payload / 8);
-                    break;
-                }
-            case self::QR_MODE_KJ:
-                {
-                    $size = (int) (($payload / 13) * 2);
-                    break;
-                }
-            case self::QR_MODE_ST:
-                {
-                    $size = (int) ($payload / 8);
-                    break;
-                }
-            default:
-                {
-                    $size = 0;
-                    break;
-                }
-        }
-
-        $maxsize = $this->maximumWords($mode, $version);
-        if ($size < 0) {
-            $size = 0;
-        }
-
-        if ($size > $maxsize) {
-            $size = $maxsize;
-        }
-
-        return $size;
     }
 
     /**

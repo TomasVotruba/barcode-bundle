@@ -5,15 +5,15 @@ namespace TomasVotruba\BarcodeBundle;
 final class Base1DBarcode
 {
     /**
-     * @var array<string, mixed>
-     */
-    private array $barcodeArray = [];
-
-    /**
      * path to save png in getBarcodePNGPath
      * @var string
      */
     public $savePath;
+
+    /**
+     * @var array<string, mixed>
+     */
+    private array $barcodeArray = [];
 
     /**
      * Return an array representations of barcode.
@@ -38,7 +38,7 @@ final class Base1DBarcode
                 mkdir($serverPath, 0770, true);
             }
         } catch (\Exception $exception) {
-            throw new \Exception("An error occurred while creating barcode cache directory at " . $serverPath, $exception->getCode(), $exception);
+            throw new \Exception('An error occurred while creating barcode cache directory at ' . $serverPath, $exception->getCode(), $exception);
         }
     }
 
@@ -200,7 +200,7 @@ final class Base1DBarcode
      */
     public function getBarcodePNGPath($code, $type, int $w = 2, int $h = 30, $color = [0, 0, 0], $filename = null): ?string
     {
-        if (is_null($filename)) {
+        if ($filename === null) {
             $filename = $type . '_' . $code;
         }
 
@@ -273,10 +273,9 @@ final class Base1DBarcode
             imagedestroy($png);
 
             return $saveFile;
-        } else {
-            imagedestroy($png);
-            throw new \Exception('It not possible to write barcode cache file to path ' . $this->savePath);
         }
+        imagedestroy($png);
+        throw new \Exception('It not possible to write barcode cache file to path ' . $this->savePath);
     }
 
     public function setBarcode(string $code, string $type): void
@@ -409,6 +408,74 @@ final class Base1DBarcode
         }
 
         $this->barcodeArray = $arrcode;
+    }
+
+    /**
+     * Convert large integer number to hexadecimal representation. (requires PHP bcmath extension)
+     *
+     * @param string $number
+     */
+    public function dec_to_hex($number): string
+    {
+        $hex = [];
+        if ($number == 0) {
+            return '00';
+        }
+
+        while ($number > 0) {
+            if ($number == 0) {
+                $hex[] = '0';
+            } else {
+                $hex[] = strtoupper(dechex((int) bcmod($number, '16')));
+                $number = bcdiv($number, '16', 0);
+            }
+        }
+
+        $hex = array_reverse($hex);
+
+        return implode('', $hex);
+    }
+
+    /**
+     * Convert large hexadecimal number to decimal representation (string). (requires PHP bcmath extension)
+     *
+     * @param string $hex
+     *
+     * @return int|string
+     */
+    public function hex_to_dec($hex)
+    {
+        $dec = 0;
+        $bitval = 1;
+        $len = strlen($hex);
+        for ($pos = ($len - 1); $pos >= 0; --$pos) {
+            $dec = bcadd($dec, bcmul((string) hexdec($hex[$pos]), $bitval));
+            $bitval = bcmul($bitval, '16');
+        }
+
+        return $dec;
+    }
+
+    /**
+     * unlink old barcode image file or optional rand prefix file
+     *
+     * @param string $path
+     * @param bool   $overwrite
+     *
+     * @return mixed
+     */
+    public function checkfile($path, $overwrite)
+    {
+        if (file_exists($path)) {
+            if (! $overwrite) {
+                $baseName = pathinfo($path, PATHINFO_BASENAME);
+
+                return $this->checkfile(str_replace($baseName, random_int(0, 9999) . $baseName, $path), $overwrite);
+            }
+            unlink($path);
+        }
+
+        return $path;
     }
 
     /**
@@ -1539,9 +1606,8 @@ final class Base1DBarcode
                                     }
 
                                     break;
-                                } else {
-                                    $startid = 104;
                                 }
+                                $startid = 104;
                             } elseif ($sequence[($key - 1)][0] != 'B') {
                                 if (($seq[2] == 1) && ($key > 0) && ($sequence[($key - 1)][0] == 'A') && (! isset($sequence[($key - 1)][3]))) {
                                     // single character shift
@@ -2694,52 +2760,6 @@ final class Base1DBarcode
     }
 
     /**
-     * Convert large integer number to hexadecimal representation. (requires PHP bcmath extension)
-     *
-     * @param string $number
-     */
-    public function dec_to_hex($number): string
-    {
-        $hex = [];
-        if ($number == 0) {
-            return '00';
-        }
-
-        while ($number > 0) {
-            if ($number == 0) {
-                $hex[] = '0';
-            } else {
-                $hex[] = strtoupper(dechex((int) bcmod($number, '16')));
-                $number = bcdiv($number, '16', 0);
-            }
-        }
-
-        $hex = array_reverse($hex);
-
-        return implode('', $hex);
-    }
-
-    /**
-     * Convert large hexadecimal number to decimal representation (string). (requires PHP bcmath extension)
-     *
-     * @param string $hex
-     *
-     * @return int|string
-     */
-    public function hex_to_dec($hex)
-    {
-        $dec = 0;
-        $bitval = 1;
-        $len = strlen($hex);
-        for ($pos = ($len - 1); $pos >= 0; --$pos) {
-            $dec = bcadd($dec, bcmul((string) hexdec($hex[$pos]), $bitval));
-            $bitval = bcmul($bitval, '16');
-        }
-
-        return $dec;
-    }
-
-    /**
      * Intelligent Mail Barcode calculation of Frame Check Sequence
      *
      * @param string[] $codeArr
@@ -2827,28 +2847,5 @@ final class Base1DBarcode
         }
 
         return $table;
-    }
-
-    /**
-     * unlink old barcode image file or optional rand prefix file
-     *
-     * @param string $path
-     * @param bool   $overwrite
-     *
-     * @return mixed
-     */
-    public function checkfile($path, $overwrite)
-    {
-        if (file_exists($path)) {
-            if (! $overwrite) {
-                $baseName = pathinfo($path, PATHINFO_BASENAME);
-
-                return $this->checkfile(str_replace($baseName, random_int(0, 9999) . $baseName, $path), $overwrite);
-            } else {
-                unlink($path);
-            }
-        }
-
-        return $path;
     }
 }

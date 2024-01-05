@@ -1058,15 +1058,14 @@ final class datamatrix
                                 // return to ascii without unlatch
                                 $enc = self::ENC_ASCII;
                                 break; // exit from EDIFACT mode
-                            } else {
-                                $newenc = $this->lookAheadTest($data, $pos, $enc);
-                                if ($newenc != $enc) {
-                                    // 1. If the look-ahead test (starting at step J) indicates another mode, switch to that mode.
-                                    $enc = $newenc;
-                                    $cw[] = $this->getSwitchEncodingCodeword($enc);
-                                    ++$cwNum;
-                                    break; // exit from EDIFACT mode
-                                }
+                            }
+                            $newenc = $this->lookAheadTest($data, $pos, $enc);
+                            if ($newenc != $enc) {
+                                // 1. If the look-ahead test (starting at step J) indicates another mode, switch to that mode.
+                                $enc = $newenc;
+                                $cw[] = $this->getSwitchEncodingCodeword($enc);
+                                ++$cwNum;
+                                break; // exit from EDIFACT mode
                             }
                         }
                     }
@@ -1084,13 +1083,12 @@ final class datamatrix
                             $cw[] = $this->getSwitchEncodingCodeword($enc);
                             ++$cwNum;
                             break; // exit from B256 mode
-                        } else {
-                            // 2. Otherwise, process the next character in Base 256 encodation.
-                            $chr = ord($data[($pos)]);
-                            ++$pos;
-                            $tempCw[] = $chr;
-                            ++$fieldLenght;
                         }
+                        // 2. Otherwise, process the next character in Base 256 encodation.
+                        $chr = ord($data[($pos)]);
+                        ++$pos;
+                        $tempCw[] = $chr;
+                        ++$fieldLenght;
                     }
 
                     // set field lenght

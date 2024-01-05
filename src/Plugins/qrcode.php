@@ -1265,12 +1265,7 @@ final class qrcode
         return ($this->lookAnTable(ord($str[$pos])) >= 0);
     }
 
-    /**
-     * identifyMode
-     *
-     * @param int $pos
-     */
-    private function identifyMode($pos): int
+    private function identifyMode(int $pos): int
     {
         if ($pos >= strlen($this->dataStr)) {
             return self::QR_MODE_NL;
@@ -1496,7 +1491,7 @@ final class qrcode
         $stringLen = strlen($this->dataStr);
         $p = 0;
         while ($p < $stringLen) {
-            $mode = $this->identifyMode(substr($this->dataStr, $p));
+            $mode = $this->identifyMode((int) substr($this->dataStr, $p));
             if ($mode == self::QR_MODE_KJ) {
                 $p += 2;
             } else {

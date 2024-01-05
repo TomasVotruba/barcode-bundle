@@ -149,7 +149,7 @@ final class Base1DBarcode
                     $bar->setfillcolor($fgcol);
                     $bar->rectangle($x, $y, ($x + $bw), ($y + $bh));
                 } else {
-                    imagefilledrectangle($png, $x, $y, ($x + $bw), ($y + $bh), $fgcol);
+                    imagefilledrectangle($png, $x, (int) $y, (int) ($x + $bw), (int) ($y + $bh), $fgcol);
                 }
             }
 
@@ -2732,7 +2732,7 @@ final class Base1DBarcode
         $bitval = 1;
         $len = strlen($hex);
         for ($pos = ($len - 1); $pos >= 0; --$pos) {
-            $dec = bcadd($dec, bcmul(hexdec($hex[$pos]), $bitval));
+            $dec = bcadd($dec, bcmul((string) hexdec($hex[$pos]), $bitval));
             $bitval = bcmul($bitval, '16');
         }
 

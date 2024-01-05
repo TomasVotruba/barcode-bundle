@@ -15,3 +15,12 @@ parameters:
         -
             message: '#Binary operation \"\+\" between string and string results in an error#'
             path: src/Base1DBarcode.php
+
+
+        # called via magic name
+        - '#Method TomasVotruba\\BarcodeBundle\\Plugins\\qrcode::mask\d+\(\) is unused#'
+
+        # false positive
+        -
+            message: '#(Left|Right) side of && is always false#'
+            path: src/Plugins/pdf417.php

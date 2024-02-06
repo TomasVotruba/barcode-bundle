@@ -56,18 +56,16 @@ Installation
 ```bash
 composer require tomasvotruba/barcode-bundle
 ```
-
-Add this bundle to your application's kernel:
-
+If you're not using Flex, enable the bundle by adding the class to bundles.php
 ```php
-      // app/AppKernel.php
-      public function registerBundles()
-      {
-          return [
-              // ...
-              new \TomasVotruba\BarcodeBundle\BarcodeBundle(),
-          ];
-      }
+// config/bundles.php
+<?php
+
+return [
+    //...
+    TomasVotruba\BarcodeBundle\BarcodeBundle::class => ['all' => true],
+    //...
+];
 ```
 
 Usage
